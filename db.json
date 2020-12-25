@@ -2,12 +2,12 @@
   "productos": [
     {
       "nombre": "Jugo de Naranja",
-      "precio": "300",
+      "precio": "500",
       "id": 3
     },
     {
-      "nombre": "Rib Eye 800g",
-      "precio": "200",
+      "nombre": "Rib Eye Full",
+      "precio": "800",
       "id": 4
     },
     {
@@ -16,38 +16,13 @@
       "id": 5
     },
     {
-      "nombre": "Camisa React JS",
-      "precio": "60",
-      "id": 6
-    },
-    {
-      "nombre": "Camisa Drupal",
-      "precio": "60",
-      "id": 10
-    },
-    {
-      "nombre": "Camisa Node",
-      "precio": "60",
-      "id": 11
-    },
-    {
-      "nombre": "Camisa React JS",
-      "precio": "60",
-      "id": 14
-    },
-    {
-      "nombre": "dsadas",
-      "precio": "60",
+      "nombre": "Pizza",
+      "precio": "50",
       "id": 15
     },
     {
-      "nombre": "Laptop",
-      "precio": "60",
-      "id": 16
-    },
-    {
-      "nombre": "Camisa de Node",
-      "precio": "600",
+      "nombre": "Jugo de Manzana",
+      "precio": "80",
       "id": 17
     }
   ]

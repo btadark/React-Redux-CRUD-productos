@@ -1,4 +1,33 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { editarProductoAction } from "../actions/productoActions";
+import { useForm } from "../hooks/useForm";
+
 export const EditarProducto = () => {
+  // state del formulario
+  const [producto, onInputChange, setFormState] = useForm({
+    nombre: "",
+    precio: "",
+  });
+
+  const { productoEditar } = useSelector((state) => state.productos);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    setFormState(productoEditar);
+  }, [productoEditar]);
+
+  const { nombre, precio } = productoEditar;
+
+  const submitEditarProducto = (e) => {
+    e.preventDefault();
+
+    dispatch(editarProductoAction(producto));
+    history.push("/");
+  };
   return (
     <div className="row justify-content-center">
       <div className="col-md-7">
@@ -8,23 +37,27 @@ export const EditarProducto = () => {
               Editar Producto
             </h2>
 
-            <form>
+            <form onSubmit={submitEditarProducto}>
               <div className="form-group">
                 <label>Nombre:</label>
                 <input
                   type="text"
-                  name="name"
+                  name="nombre"
                   className="form-control"
                   placeholder="Nombre del Producto"
+                  defaultValue={nombre}
+                  onChange={onInputChange}
                 />
               </div>
               <div className="form-group">
                 <label>Precio:</label>
                 <input
                   type="number"
-                  name="price"
+                  name="precio"
                   className="form-control"
                   placeholder="Precio del Producto"
+                  defaultValue={precio}
+                  onChange={onInputChange}
                 />
               </div>
 

@@ -26,7 +26,7 @@ export const Productos = () => {
             </p>
           )}
 
-          {loading && <p className="text-center">Cargando...</p>}
+          {/* {loading && <p className="text-center">Cargando...</p>} */}
 
           <table className="table table-striped">
             <thead className="table-secondary">

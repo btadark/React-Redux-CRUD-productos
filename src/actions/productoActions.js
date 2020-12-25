@@ -10,6 +10,10 @@ import {
   ELIMINAR_PRODUCTO,
   ELIMINAR_PRODUCTO_EXITO,
   ELIMINAR_PRODUCTO_ERROR,
+  OBTENER_PRODUCTO_EDITAR,
+  EDITAR_PRODUCTO,
+  EDITAR_PRODUCTO_EXITO,
+  EDITAR_PRODUCTO_ERROR,
 } from "../types";
 
 // --------- Crear nuevos productos ---------
@@ -118,4 +122,60 @@ const eliminarProductoExito = () => ({
 const eliminarProductoError = (estado) => ({
   type: ELIMINAR_PRODUCTO_ERROR,
   payload: estado,
+});
+
+//  --------- Coloca el producto en edicion ---------
+
+export const obtenerProductoEditar = (producto) => {
+  return (dispatch) => {
+    dispatch(obtenerProducto(producto));
+  };
+};
+
+const obtenerProducto = (producto) => ({
+  type: OBTENER_PRODUCTO_EDITAR,
+  payload: producto,
+});
+
+//  --------- Edita un registro en la api y state ---------
+export const editarProductoAction = (producto) => {
+  return async (dispatch) => {
+    dispatch(editarProducto());
+
+    try {
+      await clienteAxios.put(`/productos/${producto.id}`, producto);
+
+      dispatch(editarProductoExito(producto));
+
+      // Alerta
+      Swal.fire(
+        "Correcto",
+        "El producto se actualizo correctamente",
+        "success"
+      );
+    } catch (error) {
+      console.log(error);
+      dispatch(editarProductoError(true));
+      // Alerta de error
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un error, intenta de nuevo",
+      });
+    }
+  };
+};
+
+const editarProducto = () => ({
+  type: EDITAR_PRODUCTO,
+});
+
+const editarProductoExito = (producto) => ({
+  type: EDITAR_PRODUCTO_EXITO,
+  payload: producto,
+});
+
+const editarProductoError = (state) => ({
+  type: EDITAR_PRODUCTO_ERROR,
+  payload: state,
 });
