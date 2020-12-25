@@ -1,8 +1,12 @@
 import { useEffect } from "react";
+import { useForm } from "../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { editarProductoAction } from "../actions/productoActions";
-import { useForm } from "../hooks/useForm";
+import {
+  mostrarAlertaAction,
+  ocultarAlertaAction,
+} from "../actions/alertaActions";
 
 export const EditarProducto = () => {
   // state del formulario
@@ -12,18 +16,32 @@ export const EditarProducto = () => {
   });
 
   const { productoEditar } = useSelector((state) => state.productos);
+  const alerta = useSelector((state) => state.alerta.alerta);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
     setFormState(productoEditar);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productoEditar]);
 
   const { nombre, precio } = productoEditar;
 
   const submitEditarProducto = (e) => {
     e.preventDefault();
+
+    // Validar formulario
+    if (producto.nombre.trim() === "" || producto.precio.trim() === "") {
+      const alerta = {
+        msg: "Todos los campos son obligatorios",
+        clases: "alert alert-danger text-center text-uppercase p3",
+      };
+      dispatch(mostrarAlertaAction(alerta));
+      return;
+    }
+    // Si no hay errores
+    dispatch(ocultarAlertaAction());
 
     dispatch(editarProductoAction(producto));
     history.push("/");
@@ -37,6 +55,7 @@ export const EditarProducto = () => {
               Editar Producto
             </h2>
 
+            {alerta && <p className={alerta.clases}>{alerta.msg}</p>}
             <form onSubmit={submitEditarProducto}>
               <div className="form-group">
                 <label>Nombre:</label>

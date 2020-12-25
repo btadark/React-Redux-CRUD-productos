@@ -1,5 +1,6 @@
 import clienteAxios from "../config/axios";
 import Swal from "sweetalert2";
+import shortid from "shortid";
 import {
   AGREGAR_PRODUCTO,
   AGREGAR_PRODUCTO_EXITO,
@@ -22,6 +23,9 @@ export const crearProductoAction = (producto) => {
     dispatch(agregarProducto());
 
     try {
+      // Agregamos id al producto
+      producto.id = shortid.generate();
+
       // Insertar en la API
       await clienteAxios.post("/productos", producto);
 

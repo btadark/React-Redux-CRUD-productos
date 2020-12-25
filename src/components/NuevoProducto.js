@@ -1,4 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
+import {
+  mostrarAlertaAction,
+  ocultarAlertaAction,
+} from "../actions/alertaActions";
 import { crearProductoAction } from "../actions/productoActions";
 import { useForm } from "../hooks/useForm";
 
@@ -15,16 +19,22 @@ export const NuevoProducto = ({ history }) => {
 
   // Acceder al state del store
   const { loading } = useSelector((state) => state.productos);
+  const alerta = useSelector((state) => state.alerta.alerta);
 
   const submitNuevoProducto = (e) => {
     e.preventDefault();
 
     // Validar formulario
     if (nombre.trim() === "" || precio.trim() === "") {
+      const alerta = {
+        msg: "Todos los campos son obligatorios",
+        clases: "alert alert-danger text-center text-uppercase p3",
+      };
+      dispatch(mostrarAlertaAction(alerta));
       return;
     }
-
     // Si no hay errores
+    dispatch(ocultarAlertaAction());
 
     // Crear un nuevo producto
     dispatch(
@@ -46,6 +56,8 @@ export const NuevoProducto = ({ history }) => {
             <h2 className="text-center font-weight-bold mb-4">
               Agregar Producto
             </h2>
+
+            {alerta && <p className={alerta.clases}>{alerta.msg}</p>}
 
             <form onSubmit={submitNuevoProducto}>
               <div className="form-group">
