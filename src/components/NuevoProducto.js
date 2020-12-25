@@ -1,4 +1,43 @@
-export const NuevoProducto = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { crearProductoAction } from "../actions/productoActions";
+import { useForm } from "../hooks/useForm";
+
+export const NuevoProducto = ({ history }) => {
+  // State del componente
+  const [formValues, onInputChange] = useForm({
+    nombre: "",
+    precio: "",
+  });
+
+  const { nombre, precio } = formValues;
+
+  const dispatch = useDispatch();
+
+  // Acceder al state del store
+  const { loading } = useSelector((state) => state.productos);
+
+  const submitNuevoProducto = (e) => {
+    e.preventDefault();
+
+    // Validar formulario
+    if (nombre.trim() === "" || precio.trim() === "") {
+      return;
+    }
+
+    // Si no hay errores
+
+    // Crear un nuevo producto
+    dispatch(
+      crearProductoAction({
+        nombre,
+        precio,
+      })
+    );
+
+    // redireccionar al home
+    history.push("/");
+  };
+
   return (
     <div className="row justify-content-center">
       <div className="col-md-7">
@@ -8,33 +47,37 @@ export const NuevoProducto = () => {
               Agregar Producto
             </h2>
 
-            <form>
+            <form onSubmit={submitNuevoProducto}>
               <div className="form-group">
                 <label>Nombre:</label>
                 <input
                   type="text"
-                  name="name"
+                  name="nombre"
                   className="form-control"
                   placeholder="Nombre del Producto"
+                  onChange={onInputChange}
                 />
               </div>
               <div className="form-group">
                 <label>Precio:</label>
                 <input
                   type="number"
-                  name="price"
+                  name="precio"
                   className="form-control"
                   placeholder="Precio del Producto"
+                  onChange={onInputChange}
                 />
               </div>
 
               <button
                 type="submit"
-                className="btn btn-primary font-weight-bold text-uppercase d-block w-100 mt-4 mb-3"
+                className="btn btn-primary font-weight-bold text-uppercase d-block w-100  "
               >
                 Agregar
               </button>
             </form>
+
+            {loading && <p>Cargando... </p>}
           </div>
         </div>
       </div>
