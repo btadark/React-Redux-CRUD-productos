@@ -7,9 +7,12 @@ import {
   OBTENER_PRODUCTOS,
   OBTENER_PRODUCTOS_EXITO,
   OBTENER_PRODUCTOS_ERROR,
+  ELIMINAR_PRODUCTO,
+  ELIMINAR_PRODUCTO_EXITO,
+  ELIMINAR_PRODUCTO_ERROR,
 } from "../types";
 
-// Crear nuevos productos
+// --------- Crear nuevos productos ---------
 export const crearProductoAction = (producto) => {
   return async (dispatch) => {
     dispatch(agregarProducto());
@@ -52,7 +55,7 @@ const agregarProductoError = (estado) => ({
   payload: estado,
 });
 
-// Obtener productos
+// --------- Obtener productos ---------
 export const obtenerProductosAction = () => {
   return async (dispatch) => {
     dispatch(obtenerProductos());
@@ -82,5 +85,37 @@ const obtenerProductosExito = (productos) => ({
 
 const obtenerProductosError = (estado) => ({
   type: OBTENER_PRODUCTOS_ERROR,
+  payload: estado,
+});
+
+//  --------- Selecciona y elimina el producto ---------
+export const eliminarProductoAction = (id) => {
+  return async (dispatch) => {
+    dispatch(obtenerProductoEliminar(id));
+
+    try {
+      await clienteAxios.delete(`/productos/${id}`);
+
+      dispatch(eliminarProductoExito());
+
+      Swal.fire("Eliminado", "Producto eliminado correctamente", "success");
+    } catch (error) {
+      console.log(error);
+      dispatch(eliminarProductoError(true));
+    }
+  };
+};
+
+const obtenerProductoEliminar = (id) => ({
+  type: ELIMINAR_PRODUCTO,
+  payload: id,
+});
+
+const eliminarProductoExito = () => ({
+  type: ELIMINAR_PRODUCTO_EXITO,
+});
+
+const eliminarProductoError = (estado) => ({
+  type: ELIMINAR_PRODUCTO_ERROR,
   payload: estado,
 });

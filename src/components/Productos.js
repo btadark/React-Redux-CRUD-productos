@@ -9,6 +9,7 @@ export const Productos = () => {
   useEffect(() => {
     // Consultar la API
     dispatch(obtenerProductosAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { productos, error, loading } = useSelector((state) => state.productos);
